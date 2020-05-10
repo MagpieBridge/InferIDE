@@ -9,11 +9,11 @@ import { LanguageClient, LanguageClientOptions, ServerOptions, StreamInfo, Publi
 // your extension is activated the very first time the command is executed
 export async function activate(context: ExtensionContext) {
 		// Startup options for the language server
-	const lspTransport = workspace.getConfiguration().get("taintbench.lspTransport", "socket")
-	//const lspTransport = workspace.getConfiguration().get("taintbench.lspTransport", "stdio")
+	//const lspTransport = workspace.getConfiguration().get("infer.lspTransport", "socket")
+	const lspTransport = workspace.getConfiguration().get("taintbench.lspTransport", "stdio")
 
     let script = 'java';
-    let args = ['-jar',context.asAbsolutePath(path.join('taintviewer-0.0.1-SNAPSHOT.jar'))];
+    let args = ['-jar',context.asAbsolutePath(path.join('inferIDE-0.0.1.jar'))];
 	
 	const serverOptionsStdio = {
 		run : { command: script, args: args },
@@ -36,8 +36,8 @@ export async function activate(context: ExtensionContext) {
 	}
 	
 	const serverOptions: ServerOptions =
-		//(lspTransport === "stdio") ? serverOptionsStdio : (lspTransport === "socket") ? serverOptionsSocket : null
-		(lspTransport === "socket") ? serverOptionsSocket : (lspTransport === "stdio") ? serverOptionsStdio : null
+		(lspTransport === "stdio") ? serverOptionsStdio : (lspTransport === "socket") ? serverOptionsSocket : null
+		//(lspTransport === "socket") ? serverOptionsSocket : (lspTransport === "stdio") ? serverOptionsStdio : null
    
 	let clientOptions: LanguageClientOptions = {
         documentSelector: [{ scheme: 'file', language: 'java' }],

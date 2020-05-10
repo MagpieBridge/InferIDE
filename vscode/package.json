@@ -1,6 +1,6 @@
 {
 	"name": "inferide",
-	"description": "A language server for Infer",
+	"description": "A language server for facebook Infer",
 	"author": "Linghui Luo",
 	"license": "EPL-2.0",
 	"version": "0.0.1",
@@ -20,7 +20,7 @@
 		"onLanguage:java"
 	],
 	"main": "./out/extension",
-	"contributes": {	
+	"contributes": {
 		"configuration": {
 			"type": "object",
 			"title": "InferIDE",
@@ -40,7 +40,7 @@
 		}
 	},
 	"scripts": {
-		"vscode:prepublish": "cp ../target/taintviewer-0.0.1-SNAPSHOT.jar taintviewer-0.0.1-SNAPSHOT.jar && npm run compile",
+		"vscode:prepublish": "cp ../target/inferIDE-0.0.1.jar inferIDE-0.0.1.jar && npm run compile",
 		"compile": "tsc -b",
 		"watch": "tsc -b -w",
 		"postinstall": "node ./node_modules/vscode/bin/install"
