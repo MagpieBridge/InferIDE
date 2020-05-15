@@ -2,13 +2,11 @@ package magpiebridge.finfer;
 
 import com.ibm.wala.cast.tree.CAstSourcePositionMap.Position;
 import com.ibm.wala.util.collections.Pair;
-
-import org.eclipse.lsp4j.DiagnosticSeverity;
-
 import magpiebridge.core.AnalysisResult;
 import magpiebridge.core.Kind;
+import org.eclipse.lsp4j.DiagnosticSeverity;
 
-public class InferResult implements AnalysisResult{
+public class InferResult implements AnalysisResult {
 
   private final Kind kind;
   private final Position position;
@@ -81,6 +79,4 @@ public class InferResult implements AnalysisResult{
   public String code() {
     return code;
   }
-  
-
 }
