@@ -36,6 +36,15 @@ public class InferServerAnalysis implements ToolAnalysis {
   private boolean firstTime = true;
   private static boolean showTrace = false;
   private String command;
+  
+  private static boolean showTrace = false;
+
+  
+  public InferServerAnalysis() {
+    super();
+    this.firstTime = true;
+    this.command = "infer run --reactive --";
+  }
 
   @Override
   public String source() {
@@ -161,7 +170,7 @@ public class InferServerAnalysis implements ToolAnalysis {
 
   @Override
   public List<ConfigurationAction> getConfiguredActions() {
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   @Override
