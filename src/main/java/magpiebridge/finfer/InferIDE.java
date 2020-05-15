@@ -18,7 +18,8 @@ public class InferIDE {
   public static void main(String... args) throws IOException, InterruptedException {
     Supplier<MagpieServer> createServer = () -> {
       ServerConfiguration config = new ServerConfiguration();
-      config.setDoAnalysisByIdle(true, 4 * 60 * 1000);
+      config.setDoAnalysisByOpen(false);
+      //config.setDoAnalysisByIdle(true, 5 * 60 * 1000);
       config.setReportFalsePositive(true);
       config.setReportConfusion(true);
       config.setShowConfigurationPage(true);
@@ -31,6 +32,10 @@ public class InferIDE {
       server.addAnalysis(either, language);
 
       ToolAnalysis analysis2 = new InferServerAnalysis() {
+        @Override
+        public String source() {
+          return "infer2";
+        }
         @Override
         public List<ConfigurationOption> getConfigurationOptions() {
           List<ConfigurationOption> commands = new ArrayList<>();
@@ -46,7 +51,7 @@ public class InferIDE {
         }
       };
       Either<ServerAnalysis, ToolAnalysis> either2 = Either.forRight(analysis2);
-      server.addAnalysis(either2, language);
+      server.addAnalysis(either2, "javascript");
       return server;
     };
     // createServer.get().launchOnStdio();

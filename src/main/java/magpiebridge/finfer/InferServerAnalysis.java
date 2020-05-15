@@ -36,10 +36,7 @@ public class InferServerAnalysis implements ToolAnalysis {
   private boolean firstTime = true;
   private static boolean showTrace = false;
   private String command;
-  
-  private static boolean showTrace = false;
 
-  
   public InferServerAnalysis() {
     super();
     this.firstTime = true;
@@ -52,8 +49,7 @@ public class InferServerAnalysis implements ToolAnalysis {
   }
 
   @Override
-  public void analyze(
-      Collection<? extends Module> files, AnalysisConsumer consumer, boolean rerun) {
+  public void analyze(Collection<? extends Module> files, AnalysisConsumer consumer, boolean rerun) {
     if (consumer instanceof MagpieServer) {
       MagpieServer server = (MagpieServer) consumer;
       if (this.rootPath == null) {
@@ -61,41 +57,44 @@ public class InferServerAnalysis implements ToolAnalysis {
         if (ps.getRootPath().isPresent()) {
           this.rootPath = ps.getRootPath().get().toString();
           this.projectType = ps.getProjectType();
-          this.reportPath =
-              this.rootPath + File.separator + "infer-out" + File.separator + "report.json";
+          this.reportPath = this.rootPath + File.separator + "infer-out" + File.separator + "report.json";
         }
       }
       if (rerun && this.rootPath != null) {
-        server.submittNewTask(
-            () -> {
-              try {
-                File report = new File(InferServerAnalysis.this.reportPath);
-                if (report.exists()) report.delete();
-                Process runInfer = this.runCommand(new File(InferServerAnalysis.this.rootPath));
-                if (runInfer.waitFor() == 0) {
-                  File file = new File(InferServerAnalysis.this.reportPath);
-                  if (file.exists()) {
-                    Collection<AnalysisResult> results = convertToolOutput();
-                    server.consume(results, source());
-                  }
-                }
-              } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+        server.submittNewTask(() -> {
+          try {
+            File report = new File(InferServerAnalysis.this.reportPath);
+            if (report.exists())
+              report.delete();
+            Process runInfer = this.runCommand(new File(InferServerAnalysis.this.rootPath));
+            if (runInfer.waitFor() == 0) {
+              File file = new File(InferServerAnalysis.this.reportPath);
+              if (file.exists()) {
+                Collection<AnalysisResult> results = convertToolOutput();
+                server.consume(results, source());
               }
-            });
+            }
+          } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+          }
+        });
       }
     }
   }
 
   private String getToolBuildCmdWithClean() {
-    if (this.projectType.equals(JavaProjectType.Maven.toString())) return "mvn clean compile";
-    if (this.projectType.equals(JavaProjectType.Gradle.toString())) return "";
+    if (this.projectType.equals(JavaProjectType.Maven.toString()))
+      return "mvn clean compile";
+    if (this.projectType.equals(JavaProjectType.Gradle.toString()))
+      return "";
     return "";
   }
 
   private String getToolBuildCmd() {
-    if (this.projectType.equals(JavaProjectType.Maven.toString())) return "mvn compile";
-    if (this.projectType.equals(JavaProjectType.Gradle.toString())) return "";
+    if (this.projectType.equals(JavaProjectType.Maven.toString()))
+      return "mvn compile";
+    if (this.projectType.equals(JavaProjectType.Gradle.toString()))
+      return "";
     return "";
   }
 
@@ -105,7 +104,8 @@ public class InferServerAnalysis implements ToolAnalysis {
     if (firstTime) {
       firstTime = false;
       cmd = cmd + getToolBuildCmdWithClean();
-    } else cmd = cmd + getToolBuildCmd();
+    } else
+      cmd = cmd + getToolBuildCmd();
     return cmd.split(" ");
   }
 
@@ -132,16 +132,13 @@ public class InferServerAnalysis implements ToolAnalysis {
             if (new File(stepFile).exists()) {
               int stepLine = step.get("line_number").getAsInt();
               String stepDescription = step.get("description").getAsString();
-              Position stepPos =
-                  SourceCodePositionFinder.findCode(new File(stepFile), stepLine).toPosition();
+              Position stepPos = SourceCodePositionFinder.findCode(new File(stepFile), stepLine).toPosition();
               Pair<Position, String> pair = Pair.make(stepPos, stepDescription);
               traceList.add(pair);
             }
           }
         }
-        AnalysisResult rbug =
-            new InferResult(
-                Kind.Diagnostic, pos, msg, traceList, DiagnosticSeverity.Error, null, null);
+        AnalysisResult rbug = new InferResult(Kind.Diagnostic, pos, msg, traceList, DiagnosticSeverity.Error, null, null);
         res.add(rbug);
       }
     } catch (JsonIOException e) {
@@ -157,10 +154,9 @@ public class InferServerAnalysis implements ToolAnalysis {
   @Override
   public List<ConfigurationOption> getConfigurationOptions() {
     List<ConfigurationOption> commands = new ArrayList<>();
-    ConfigurationOption command1 =
-        new ConfigurationOption("run command: infer run", OptionType.checkbox);
-    ConfigurationOption command2 =
-        new ConfigurationOption("run command: infer run --reactive", OptionType.checkbox);
+    ConfigurationOption command1 = new ConfigurationOption("run command: infer run", OptionType.checkbox);
+    ConfigurationOption command2
+        = new ConfigurationOption( "run command: infer run --reactive", OptionType.checkbox);
     ConfigurationOption command3 = new ConfigurationOption("run command: ", OptionType.text);
     commands.add(command1);
     commands.add(command2);
@@ -176,6 +172,7 @@ public class InferServerAnalysis implements ToolAnalysis {
   @Override
   public void configure(List<ConfigurationOption> configuration) {
     for (ConfigurationOption o : configuration)
-      if (o.getValueAsBoolean()) command = o.getName().split(": ")[1];
+      if (o.getValueAsBoolean())
+        command = o.getName().split(": ")[1];
   }
 }
