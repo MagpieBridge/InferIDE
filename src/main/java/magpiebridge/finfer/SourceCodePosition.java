@@ -1,10 +1,10 @@
 package magpiebridge.finfer;
 
+import com.ibm.wala.cast.tree.impl.AbstractSourcePosition;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URL;
-
-import com.ibm.wala.cast.tree.impl.AbstractSourcePosition;
 
 public class SourceCodePosition extends AbstractSourcePosition {
 
