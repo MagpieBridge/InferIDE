@@ -7,3 +7,5 @@
 vscode/node_modules/
 vscode/out/
 dependency-reduced-pom.xml
+
+.DS_Store
