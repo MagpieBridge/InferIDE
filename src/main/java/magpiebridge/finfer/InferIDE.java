@@ -12,19 +12,20 @@ import org.eclipse.lsp4j.jsonrpc.messages.Either;
 
 public class InferIDE {
   public static void main(String... args) throws IOException, InterruptedException {
-    Supplier<MagpieServer> createServer = () -> {
-      ServerConfiguration config = new ServerConfiguration();
-      config.setDoAnalysisByIdle(true, 4 * 60 * 1000);
-      config.setShowConfigurationPage(true);
-      MagpieServer server = new MagpieServer(config);
-      String language = "java";
-      IProjectService javaProjectService = new JavaProjectService();
-      server.addProjectService(language, javaProjectService);
-      ToolAnalysis analysis = new InferServerAnalysis();
-      Either<ServerAnalysis, ToolAnalysis> either = Either.forRight(analysis);
-      server.addAnalysis(either, language);
-      return server;
-    };
+    Supplier<MagpieServer> createServer =
+        () -> {
+          ServerConfiguration config = new ServerConfiguration();
+          config.setDoAnalysisByIdle(true, 4 * 60 * 1000);
+          config.setShowConfigurationPage(true);
+          MagpieServer server = new MagpieServer(config);
+          String language = "java";
+          IProjectService javaProjectService = new JavaProjectService();
+          server.addProjectService(language, javaProjectService);
+          ToolAnalysis analysis = new InferServerAnalysis();
+          Either<ServerAnalysis, ToolAnalysis> either = Either.forRight(analysis);
+          server.addAnalysis(either, language);
+          return server;
+        };
     // createServer.get().launchOnStdio();
     MagpieServer.launchOnSocketPort(5007, createServer);
   }

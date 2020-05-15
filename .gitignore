@@ -6,3 +6,4 @@
 .settings/org.eclipse.m2e.core.prefs
 vscode/node_modules/
 vscode/out/
+dependency-reduced-pom.xml

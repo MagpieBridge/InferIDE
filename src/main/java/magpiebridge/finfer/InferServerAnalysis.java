@@ -15,10 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import magpiebridge.core.AnalysisConsumer;
 import magpiebridge.core.AnalysisResult;
 import magpiebridge.core.Kind;
@@ -30,16 +27,23 @@ import magpiebridge.core.analysis.configuration.ConfigurationOption;
 import magpiebridge.core.analysis.configuration.OptionType;
 import magpiebridge.projectservice.java.JavaProjectService;
 import magpiebridge.util.SourceCodePositionFinder;
-import org.apache.http.NameValuePair;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 
 public class InferServerAnalysis implements ToolAnalysis {
   private String rootPath;
   private String reportPath;
   private ProjectType projectType;
-  private boolean firstTime = true;
-  private static boolean showTrace = false;
+  private boolean firstTime;
   private String command;
+  
+  private static boolean showTrace = false;
+
+  
+  public InferServerAnalysis() {
+    super();
+    this.firstTime = true;
+    this.command = "infer run --reactive --";
+  }
 
   @Override
   public String source() {
@@ -47,8 +51,8 @@ public class InferServerAnalysis implements ToolAnalysis {
   }
 
   @Override
-  public void analyze(Collection<? extends Module> files, AnalysisConsumer consumer,
-      boolean rerun) {
+  public void analyze(
+      Collection<? extends Module> files, AnalysisConsumer consumer, boolean rerun) {
     if (consumer instanceof MagpieServer) {
       MagpieServer server = (MagpieServer) consumer;
       if (this.rootPath == null) {
@@ -61,41 +65,36 @@ public class InferServerAnalysis implements ToolAnalysis {
         }
       }
       if (rerun && this.rootPath != null) {
-        server.submittNewTask(() -> {
-          try {
-            File report = new File(InferServerAnalysis.this.reportPath);
-            if (report.exists())
-              report.delete();
-            Process runInfer = this.runCommand(new File(InferServerAnalysis.this.rootPath));
-            if (runInfer.waitFor() == 0) {
-              File file = new File(InferServerAnalysis.this.reportPath);
-              if (file.exists()) {
-                Collection<AnalysisResult> results = convertToolOutput();
-                server.consume(results, source());
+        server.submittNewTask(
+            () -> {
+              try {
+                File report = new File(InferServerAnalysis.this.reportPath);
+                if (report.exists()) report.delete();
+                Process runInfer = this.runCommand(new File(InferServerAnalysis.this.rootPath));
+                if (runInfer.waitFor() == 0) {
+                  File file = new File(InferServerAnalysis.this.reportPath);
+                  if (file.exists()) {
+                    Collection<AnalysisResult> results = convertToolOutput();
+                    server.consume(results, source());
+                  }
+                }
+              } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
               }
-            }
-          } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-          }
-        });
+            });
       }
     }
   }
 
-
   private String getToolBuildCmdWithClean() {
-    if (this.projectType.equals(ProjectType.Maven))
-      return "mvn clean compile";
-    if (this.projectType.equals(ProjectType.Gradle))
-      return "";
+    if (this.projectType.equals(ProjectType.Maven)) return "mvn clean compile";
+    if (this.projectType.equals(ProjectType.Gradle)) return "";
     return "";
   }
 
   private String getToolBuildCmd() {
-    if (this.projectType.equals(ProjectType.Maven))
-      return "mvn compile";
-    if (this.projectType.equals(ProjectType.Gradle))
-      return "";
+    if (this.projectType.equals(ProjectType.Maven)) return "mvn compile";
+    if (this.projectType.equals(ProjectType.Gradle)) return "";
     return "";
   }
 
@@ -105,8 +104,7 @@ public class InferServerAnalysis implements ToolAnalysis {
     if (firstTime) {
       firstTime = false;
       cmd = cmd + getToolBuildCmdWithClean();
-    } else
-      cmd = cmd + getToolBuildCmd();
+    } else cmd = cmd + getToolBuildCmd();
     return cmd.split(" ");
   }
 
@@ -140,8 +138,9 @@ public class InferServerAnalysis implements ToolAnalysis {
             }
           }
         }
-        AnalysisResult rbug = new InferResult(Kind.Diagnostic, pos, msg, traceList,
-            DiagnosticSeverity.Error, null, null);
+        AnalysisResult rbug =
+            new InferResult(
+                Kind.Diagnostic, pos, msg, traceList, DiagnosticSeverity.Error, null, null);
         res.add(rbug);
       }
     } catch (JsonIOException e) {
@@ -168,16 +167,12 @@ public class InferServerAnalysis implements ToolAnalysis {
 
   @Override
   public List<ConfigurationAction> getConfiguredActions() {
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   @Override
   public void configure(List<ConfigurationOption> configuration) {
     for (ConfigurationOption o : configuration)
-      if (o.getValueAsBoolean())
-        command = o.getName().split(": ")[1];
+      if (o.getValueAsBoolean()) command = o.getName().split(": ")[1];
   }
-
-
-
 }
