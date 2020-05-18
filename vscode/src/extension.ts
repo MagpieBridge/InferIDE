@@ -8,13 +8,17 @@ import { LanguageClient, LanguageClientOptions, ServerOptions, StreamInfo} from 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export async function activate(context: ExtensionContext) {
-		// Startup options for the language server
-	const lspTransport = workspace.getConfiguration().get("infer.lspTransport", "socket")
-	//const lspTransport = workspace.getConfiguration().get("taintbench.lspTransport", "stdio")
-
-    let script = 'java';
-    let args = ['-jar',context.asAbsolutePath(path.join('inferIDE-0.0.1.jar'))];
-	
+	// Startup options for the language server
+	//const lspTransport = workspace.getConfiguration().get("infer.lspTransport", "socket");
+	const settings = workspace.getConfiguration("InferIDE");
+	const auto = settings.get("auto");
+	const timeout = settings.get("timeout");
+	const lspTransport = workspace.getConfiguration().get("taintbench.lspTransport", "stdio")
+	let script = 'java';
+	let relativePath="inferIDE-0.0.1.jar";
+	let args = ['-jar',context.asAbsolutePath(relativePath)];
+	if(auto.toString()=="true")
+		args =['-jar',context.asAbsolutePath(relativePath), "-auto", timeout.toString()];
 	const serverOptionsStdio = {
 		run : { command: script, args: args },
         debug: { command: script, args: args} //, options: { env: createDebugEnv() }
@@ -36,8 +40,8 @@ export async function activate(context: ExtensionContext) {
 	}
 	
 	const serverOptions: ServerOptions =
-		//(lspTransport === "stdio") ? serverOptionsStdio : (lspTransport === "socket") ? serverOptionsSocket : null
-		(lspTransport === "socket") ? serverOptionsSocket : (lspTransport === "stdio") ? serverOptionsStdio : null
+		(lspTransport === "stdio") ? serverOptionsStdio : (lspTransport === "socket") ? serverOptionsSocket : null
+		//(lspTransport === "socket") ? serverOptionsSocket : (lspTransport === "stdio") ? serverOptionsStdio : null
    
 	let clientOptions: LanguageClientOptions = {
         documentSelector: [{ scheme: 'file', language: 'java' }],

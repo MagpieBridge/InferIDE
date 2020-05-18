@@ -22,10 +22,9 @@
 	"main": "./out/extension",
 	"contributes": {
 		"configuration": {
-			"type": "object",
-			"title": "InferIDE",
+			"title": "InferIDE Setting",
 			"properties": {
-				"TaintBench.trace.server": {
+				"InferIDE.trace.server": {
 					"scope": "window",
 					"type": "string",
 					"enum": [
@@ -35,8 +34,21 @@
 					],
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
-				}
+				},
+				"InferIDE.auto":{
+					"scope": "window",
+					"type": "boolean",
+					"default":true,
+					"description": "Specifies if infer should be ran automatically when the user is idle."
+				},
+				"InferIDE.timeout":{
+					"scope": "window",
+					"type": "integer",
+					"default": 5,
+					"description": "Specifies the time to wait for idle when InferIDE.auto is enabled."
+				}	
 			}
+			
 		}
 	},
 	"scripts": {

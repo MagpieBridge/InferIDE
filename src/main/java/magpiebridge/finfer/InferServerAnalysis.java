@@ -55,8 +55,7 @@ public class InferServerAnalysis implements ToolAnalysis {
     } else {
       buildCmd = getToolBuildCmd();
     }
-    if (buildCmd == null)
-      command = "infer run";
+    if (buildCmd == null) command = "infer run";
     else {
       command = command + buildCmd;
     }
@@ -69,8 +68,8 @@ public class InferServerAnalysis implements ToolAnalysis {
   }
 
   @Override
-  public void analyze(Collection<? extends Module> files, AnalysisConsumer consumer,
-      boolean rerun) {
+  public void analyze(
+      Collection<? extends Module> files, AnalysisConsumer consumer, boolean rerun) {
     if (consumer instanceof MagpieServer) {
       MagpieServer server = (MagpieServer) consumer;
       if (this.rootPath == null) {
@@ -84,49 +83,47 @@ public class InferServerAnalysis implements ToolAnalysis {
         }
       }
       if (rerun && this.rootPath != null) {
-        server.submittNewTask(() -> {
-          try {
-            File report = new File(InferServerAnalysis.this.reportPath);
-            if (report.exists())
-              report.delete();
-            server.forwardMessageToClient(new MessageParams(MessageType.Info,
-                "Running command: " + (useDefaultCommand ? defaultCommand : userDefinedCommand)));
-            Process runInfer = this.runCommand(new File(InferServerAnalysis.this.rootPath));
-            if (runInfer.waitFor() == 0) {
-              File file = new File(InferServerAnalysis.this.reportPath);
-              if (file.exists()) {
-                Collection<AnalysisResult> results = convertToolOutput();
-                server.consume(results, source());
+        server.submittNewTask(
+            () -> {
+              try {
+                File report = new File(InferServerAnalysis.this.reportPath);
+                if (report.exists()) report.delete();
+                server.forwardMessageToClient(
+                    new MessageParams(
+                        MessageType.Info,
+                        "Running command: "
+                            + (useDefaultCommand ? defaultCommand : userDefinedCommand)));
+                Process runInfer = this.runCommand(new File(InferServerAnalysis.this.rootPath));
+                if (runInfer.waitFor() == 0) {
+                  File file = new File(InferServerAnalysis.this.reportPath);
+                  if (file.exists()) {
+                    Collection<AnalysisResult> results = convertToolOutput();
+                    server.consume(results, source());
+                  }
+                }
+              } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
               }
-            }
-          } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-          }
-        });
+            });
       }
     }
   }
 
   private String getToolBuildCmdWithClean() {
-    if (JavaProjectType.Maven.toString().equals(this.projectType))
-      return "mvn clean compile";
-    if (JavaProjectType.Gradle.toString().equals(this.projectType))
-      return "./gradlew clean build";
+    if (JavaProjectType.Maven.toString().equals(this.projectType)) return "mvn clean compile";
+    if (JavaProjectType.Gradle.toString().equals(this.projectType)) return "./gradlew clean build";
     return null;
   }
 
   private String getToolBuildCmd() {
-    if (this.projectType.equals(JavaProjectType.Maven.toString()))
-      return "mvn compile";
-    if (this.projectType.equals(JavaProjectType.Gradle.toString()))
-      return "./gradlew build";
+    if (this.projectType.equals(JavaProjectType.Maven.toString())) return "mvn compile";
+    if (this.projectType.equals(JavaProjectType.Gradle.toString())) return "./gradlew build";
     return null;
   }
 
   @Override
   public String[] getCommand() {
-    if (!useDefaultCommand)
-      return userDefinedCommand.split(" ");
+    if (!useDefaultCommand) return userDefinedCommand.split(" ");
     else {
       return defaultCommand.split(" ");
     }
@@ -162,8 +159,9 @@ public class InferServerAnalysis implements ToolAnalysis {
             }
           }
         }
-        AnalysisResult rbug = new InferResult(Kind.Diagnostic, pos, msg, traceList,
-            DiagnosticSeverity.Error, null, null);
+        AnalysisResult rbug =
+            new InferResult(
+                Kind.Diagnostic, pos, msg, traceList, DiagnosticSeverity.Error, null, null);
         res.add(rbug);
       }
     } catch (JsonIOException e) {
