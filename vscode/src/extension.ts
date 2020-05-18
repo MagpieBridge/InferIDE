@@ -1,8 +1,8 @@
 'use strict';
 import * as net from 'net';
 import * as path from 'path';
-import { workspace, ExtensionContext, window, TreeDataProvider,EventEmitter, Event, TreeItem, ProviderResult,Uri,commands, TreeItemCollapsibleState, Location,TextEditorRevealType, DecorationOptions, TreeView,  Selection, Position, CodeAction } from 'vscode';
-import { LanguageClient, LanguageClientOptions, ServerOptions, StreamInfo, PublishDiagnosticsParams, Diagnostic, DiagnosticSeverity, Command, VersionedTextDocumentIdentifier, Range} from 'vscode-languageclient';
+import { workspace, ExtensionContext, window} from 'vscode';
+import { LanguageClient, LanguageClientOptions, ServerOptions, StreamInfo} from 'vscode-languageclient';
 
 
 // this method is called when your extension is activated
@@ -30,7 +30,7 @@ export async function activate(context: ExtensionContext) {
 			socket.on("connect", () => resolve(result))
 			socket.on("error", _ =>
 				window.showErrorMessage(
-					"Failed to connect to TaintBench language server. Make sure that the language server is running " +
+					"Failed to connect to InferIDE language server. Make sure that the language server is running " +
 					"-or- configure the extension to connect via standard IO."))
 		})
 	}
@@ -48,9 +48,8 @@ export async function activate(context: ExtensionContext) {
     };
 
     // Create the language client and start the client.
-    let client : LanguageClient = new LanguageClient('TaintBench','TaintBench', serverOptions, clientOptions);
+    let client : LanguageClient = new LanguageClient('InferIDE','InferIDE', serverOptions, clientOptions);
     client.start();
 	await client.onReady();
-
 }
 
