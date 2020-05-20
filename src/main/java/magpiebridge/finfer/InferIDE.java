@@ -21,9 +21,9 @@ public class InferIDE {
             timeout = Integer.parseInt(args[1]);
           }
           ServerConfiguration config = new ServerConfiguration();
-          config.setDoAnalysisByOpen(false);
           config.setDoAnalysisBySave(false);
           if (!auto) {
+            config.setDoAnalysisByOpen(false);
             config.setShowConfigurationPage(true, true);
           } else {
             config.setDoAnalysisByOpen(true);
