@@ -1,12 +1,12 @@
 {
 	"name": "inferide",
-	"description": "A language server for facebook Infer",
+	"description": "A language server for facebook Infer with the MagpieBridge framework.",
 	"author": "Linghui Luo",
-	"license": "EPL-2.0",
+	"license": "MIT",
 	"version": "0.0.1",
 	"repository": {
 		"type": "git",
-		"url": ""
+		"url": "https://github.com/MagpieBridge/InferIDE"
 	},
 	"publisher": "LinghuiLuo",
 	"categories": [],

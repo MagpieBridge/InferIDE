@@ -5,8 +5,6 @@ import { workspace, ExtensionContext, window} from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, StreamInfo} from 'vscode-languageclient';
 
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 export async function activate(context: ExtensionContext) {
 	// Startup options for the language server
 	//const lspTransport = workspace.getConfiguration().get("infer.lspTransport", "socket");
@@ -21,7 +19,7 @@ export async function activate(context: ExtensionContext) {
 		args =['-jar',context.asAbsolutePath(relativePath), "-auto", timeout.toString()];
 	const serverOptionsStdio = {
 		run : { command: script, args: args },
-        debug: { command: script, args: args} //, options: { env: createDebugEnv() }
+        debug: { command: script, args: args} 
 	}
 
     const serverOptionsSocket = () => {
