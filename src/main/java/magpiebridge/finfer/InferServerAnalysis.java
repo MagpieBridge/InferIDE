@@ -197,7 +197,6 @@ public class InferServerAnalysis implements ToolAnalysis {
         this.useDefaultCommand = o.getValueAsBoolean();
       } else if (o.getType().equals(OptionType.text) && o.getValue() != null) {
         this.userDefinedCommand = o.getValue();
-        this.useDefaultCommand = false;
       }
     }
   }
