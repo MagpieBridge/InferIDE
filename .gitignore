@@ -9,3 +9,5 @@ vscode/out/
 dependency-reduced-pom.xml
 
 .DS_Store
+vscode/inferIDE-0.0.1.jar
+vscode/inferide-0.0.1.vsix

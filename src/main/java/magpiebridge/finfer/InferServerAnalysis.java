@@ -31,6 +31,11 @@ import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.MessageParams;
 import org.eclipse.lsp4j.MessageType;
 
+/**
+ * The class runs infer commands.
+ *
+ * @author Linghui Luo
+ */
 public class InferServerAnalysis implements ToolAnalysis {
   private String rootPath;
   private String reportPath;

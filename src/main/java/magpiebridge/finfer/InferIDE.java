@@ -10,6 +10,11 @@ import magpiebridge.core.ToolAnalysis;
 import magpiebridge.projectservice.java.JavaProjectService;
 import org.eclipse.lsp4j.jsonrpc.messages.Either;
 
+/**
+ * Main class of the InferIDE language server.
+ *
+ * @author Linghui Luo
+ */
 public class InferIDE {
   public static void main(String... args) throws IOException, InterruptedException {
     Supplier<MagpieServer> createServer =

@@ -6,6 +6,11 @@ import magpiebridge.core.AnalysisResult;
 import magpiebridge.core.Kind;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 
+/**
+ * This class represents the analysis results of infer.
+ *
+ * @author Linghui Luo
+ */
 public class InferResult implements AnalysisResult {
 
   private final Kind kind;
