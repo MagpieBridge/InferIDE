@@ -4,7 +4,7 @@ InferIDE executes infer in the background and displays analysis results directly
 Currently, only analyzing Java Projects is supported.  
 ![infer.gif](https://github.com/MagpieBridge/InferIDE/blob/master/doc/infer.gif)
 # Usage
-## Install infer by yourself at first
+## Install infer at first
 -  MacOS `brew install infer`
 -  Linux 
 -  Windows
