@@ -5,9 +5,18 @@ Currently, only analyzing Java Projects is supported.
 ![infer.gif](https://github.com/MagpieBridge/InferIDE/blob/master/doc/infer.gif)
 # Usage
 ## Install infer at first
--  MacOS `brew install infer`
--  Linux 
--  Windows
+* MacOS `brew install infer`
+* Linux 
+  - see [infer documentation](https://fbinfer.com/docs/getting-started/) for the latest version.
+  - At time of this writing you can use the following command to install version 0.17.0:
+  ```bash
+  VERSION=0.17.0; \
+  curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" \
+  | sudo tar -C /opt -xJ && \
+  ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
+  ```
+* Windows
+  - Infer does not run natively on windows, but you can use [docker](https://docs.docker.com/docker-for-windows/install/)
  
 ## Use InferIDE in VS Code
 
