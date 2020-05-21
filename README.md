@@ -3,6 +3,19 @@ This project integrates the static analyzer [Facebook Infer](https://github.com/
 InferIDE executes infer in the background and displays analysis results directly in IDEs which support the Language Server Protocol.
 Currently, only analyzing Java Projects is supported.  
 ![infer.gif](https://github.com/MagpieBridge/InferIDE/blob/master/doc/infer.gif)
+# Usage
+## Install infer by yourself at first
+-  MacOS `brew install infer`
+-  Linux 
+-  Windows
+ 
+## Use InferIDE in VS Code
+
+## Use InferIDE in GitPod
+
+## Use InferIDE in Eclipse
+
+## Use InferIDE in Sublime Text
 
 ## When is infer running?
 These are two ways how infer can be triggered by InferIDE:
@@ -17,11 +30,3 @@ Default build-in commands are :
 - Gradle Project: 
  - `infer run --reactive -- ./gradlew clean build` (first run)
  - `infer run --reactive -- ./gradlew build`
- 
-## Use InferIDE in VS Code
-
-## Use InferIDE in GitPod
-
-## Use InferIDE in Eclipse
-
-## Use InferIDE in Sublime Text
