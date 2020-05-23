@@ -56,9 +56,12 @@
 				"InferIDE.lspTransport": {
 					"scope": "window",
 					"type": "string",
-					"enum": ["stdio", "socket"],
+					"enum": [
+						"stdio",
+						"socket"
+					],
 					"default": "stdio",
-					"description": "Specifies the mode of transport used to communicate with the INferIDE language server."
+					"description": "Specifies the mode of transport used to communicate with the InferIDE language server."
 				}
 			}
 		}
@@ -67,7 +70,8 @@
 		"vscode:prepublish": "cp ../target/inferIDE-0.0.1.jar inferIDE-0.0.1.jar && npm run compile",
 		"compile": "tsc -b",
 		"watch": "tsc -b -w",
-		"postinstall": "node ./node_modules/vscode/bin/install"
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"build": "vsce package"
 	},
 	"dependencies": {
 		"vscode-languageclient": "^5.2.1"
@@ -77,6 +81,7 @@
 		"@types/mocha": "^5.2.6",
 		"@types/node": "^11.13.0",
 		"tslint": "^5.15.0",
-		"typescript": "^3.4.2"
+		"typescript": "^3.4.2",
+		"vsce": "^1.75.0"
 	}
 }

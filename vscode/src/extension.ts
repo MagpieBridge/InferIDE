@@ -3,8 +3,10 @@ import * as net from 'net';
 import { workspace, ExtensionContext, window } from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, StreamInfo } from 'vscode-languageclient';
 
+var client: LanguageClient = null;
 
-export async function activate(context: ExtensionContext) {
+async function configureAndStartClient(context: ExtensionContext) {
+
 	// Startup options for the language server
 	const settings = workspace.getConfiguration("InferIDE");
 	const lspTransport: string = settings.get("lspTransport");
@@ -31,10 +33,13 @@ export async function activate(context: ExtensionContext) {
 		}
 		return new Promise<StreamInfo>((resolve) => {
 			socket.on("connect", () => resolve(result))
-			socket.on("error", _ =>
+			socket.on("error", _ => {
+
 				window.showErrorMessage(
 					"Failed to connect to InferIDE language server. Make sure that the language server is running " +
-					"-or- configure the extension to connect via standard IO."))
+					"-or- configure the extension to connect via standard IO.")
+				client = null;
+			});
 		})
 	}
 
@@ -50,8 +55,23 @@ export async function activate(context: ExtensionContext) {
 	};
 
 	// Create the language client and start the client.
-	let client: LanguageClient = new LanguageClient('InferIDE', 'InferIDE', serverOptions, clientOptions);
+	client = new LanguageClient('InferIDE', 'InferIDE', serverOptions, clientOptions);
 	client.start();
+
+
 	await client.onReady();
 }
+
+export async function activate(context: ExtensionContext) {
+	configureAndStartClient(context);
+	workspace.onDidChangeConfiguration(e => {
+		if (client)
+			client.stop().then(() => configureAndStartClient(context));
+		else
+			configureAndStartClient(context)
+	})
+}
+
+
+
 
