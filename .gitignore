@@ -11,3 +11,6 @@ dependency-reduced-pom.xml
 .DS_Store
 vscode/inferIDE-0.0.1.jar
 vscode/inferide-0.0.1.vsix
+infer-out/report.json
+infer-out/results.db
+.settings/org.eclipse.jdt.apt.core.prefs
