@@ -4,7 +4,7 @@ InferIDE executes infer in the background and displays analysis results directly
 Currently, only analyzing Java Projects is supported.  
 ![infer.gif](https://github.com/MagpieBridge/InferIDE/blob/master/doc/infer.gif)
 # Usage
-## Install infer at first
+## Install infer
 * MacOS `brew install infer`
 * Linux 
   - see [infer documentation](https://fbinfer.com/docs/getting-started/) for the latest version.
@@ -17,6 +17,11 @@ Currently, only analyzing Java Projects is supported.
   ```
 * Windows
   - Infer does not run natively on windows, but you can use [docker](https://docs.docker.com/docker-for-windows/install/)
+* Docker
+  - If Docker is installed and infer is not found on the system, InferIDE will use docker to start a container that has infer installed
+  - By default, InferIDE will use the docker image [jonasmanuel/inferdocker](https://hub.docker.com/r/jonasmanuel/inferdocker) from dockerhub. It is built from the (dockerfile)[inferdocker/Dockerfile] in this repository
+  - If you want to use your own image you can supply the image using the command line option -i <dockerImage>
+  - if the image is not yet installed on your system, docker will pull it on the first run
  
 ## Use InferIDE in VS Code
 
