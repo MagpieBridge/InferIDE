@@ -8,14 +8,20 @@ import com.google.gson.JsonSyntaxException;
 import com.ibm.wala.cast.tree.CAstSourcePositionMap.Position;
 import com.ibm.wala.classLoader.Module;
 import com.ibm.wala.util.collections.Pair;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Paths;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 import magpiebridge.core.AnalysisConsumer;
 import magpiebridge.core.AnalysisResult;
 import magpiebridge.core.Kind;
@@ -46,25 +52,46 @@ public class InferServerAnalysis implements ToolAnalysis {
   private boolean useDefaultCommand;
   private String defaultCommand;
 
-  public InferServerAnalysis() {
+  private boolean useDocker;
+  private String dockerImage;
+
+  public InferServerAnalysis(String dockerImage) {
+    this.dockerImage = dockerImage;
     this.firstTime = true;
     this.useDefaultCommand = true;
   }
 
+  private void checkInferInstallation(MagpieServer server) {
+    try {
+      // check if infer is installed
+      Process inferVersion = new ProcessBuilder("infer", "--version").start();
+      if (inferVersion.waitFor() == 0) {
+        InputStream is = inferVersion.getInputStream();
+        String result = getResult(is).findFirst().orElse("");
+        server.forwardMessageToClient(
+            new MessageParams(MessageType.Info, "Found infer: " + result));
+      }
+    } catch (IOException | InterruptedException e) {
+      // check if docker is installed
+      try {
+        Process dockerVersion = new ProcessBuilder("docker", "-v").start();
+        if (dockerVersion.waitFor() == 0) {
+          server.forwardMessageToClient(new MessageParams(MessageType.Info, "Found docker"));
+          this.useDocker = true;
+        }
+      } catch (IOException | InterruptedException e1) {
+        // docker is not installed, show error message, that infer is not installed
+        handleError(server, "Could not determine infer installation!\n" + e.getMessage());
+      }
+    }
+  }
+
   private String getDefaultCommand() {
-    String command = "infer run --reactive -- ";
-    String buildCmd = null;
-    if (firstTime) {
-      firstTime = false;
-      buildCmd = getToolBuildCmdWithClean();
-    } else {
-      buildCmd = getToolBuildCmd();
-    }
-    if (buildCmd == null) command = "infer run";
-    else {
-      command = command + buildCmd;
-    }
-    return command;
+    return "infer run --reactive -- {0}";
+  }
+
+  private Stream<String> getResult(InputStream is) {
+    return new BufferedReader(new InputStreamReader(is)).lines();
   }
 
   @Override
@@ -81,12 +108,19 @@ public class InferServerAnalysis implements ToolAnalysis {
         JavaProjectService ps = (JavaProjectService) server.getProjectService("java").get();
         if (ps.getRootPath().isPresent()) {
           this.rootPath = ps.getRootPath().get().toString();
-          this.reportPath =
-              this.rootPath + File.separator + "infer-out" + File.separator + "report.json";
+          this.reportPath = Paths.get(this.rootPath, "infer-out", "report.json").toString();
           this.projectType = ps.getProjectType();
           this.defaultCommand = getDefaultCommand();
+          checkInferInstallation(server);
+          // show results of previous run
+          File file = new File(InferServerAnalysis.this.reportPath);
+          if (file.exists()) {
+            Collection<AnalysisResult> results = convertToolOutput();
+            server.consume(results, source());
+          }
         }
       }
+
       if (rerun && this.rootPath != null) {
         server.submittNewTask(
             () -> {
@@ -95,23 +129,38 @@ public class InferServerAnalysis implements ToolAnalysis {
                 if (report.exists()) report.delete();
                 server.forwardMessageToClient(
                     new MessageParams(
-                        MessageType.Info,
-                        "Running command: "
-                            + (useDefaultCommand ? defaultCommand : userDefinedCommand)));
+                        MessageType.Info, "Running command: " + String.join(" ", getCommand())));
                 Process runInfer = this.runCommand(new File(InferServerAnalysis.this.rootPath));
+                StreamGobbler stdOut =
+                    new StreamGobbler(runInfer.getInputStream(), e -> handleError(server, e));
+                StreamGobbler stdErr =
+                    new StreamGobbler(runInfer.getErrorStream(), e -> handleError(server, e));
+                stdOut.start();
+                stdErr.start();
                 if (runInfer.waitFor() == 0) {
                   File file = new File(InferServerAnalysis.this.reportPath);
                   if (file.exists()) {
                     Collection<AnalysisResult> results = convertToolOutput();
                     server.consume(results, source());
                   }
+                } else {
+                  server.forwardMessageToClient(
+                      new MessageParams(MessageType.Error, String.join("\n", stdErr.getOutput())));
                 }
               } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+                handleError(server, e);
               }
             });
       }
     }
+  }
+
+  private void handleError(MagpieServer server, Exception e) {
+    handleError(server, e.getLocalizedMessage());
+  }
+
+  private void handleError(MagpieServer server, String message) {
+    server.forwardMessageToClient(new MessageParams(MessageType.Error, message));
   }
 
   private String getToolBuildCmdWithClean() {
@@ -128,10 +177,35 @@ public class InferServerAnalysis implements ToolAnalysis {
 
   @Override
   public String[] getCommand() {
-    if (!useDefaultCommand) return userDefinedCommand.split(" ");
-    else {
-      return defaultCommand.split(" ");
+
+    String inferCommand = useDefaultCommand ? defaultCommand : userDefinedCommand;
+
+    String buildCmd = null;
+    if (firstTime) {
+      firstTime = false;
+      buildCmd = getToolBuildCmdWithClean();
+    } else {
+      buildCmd = getToolBuildCmd();
     }
+    if (buildCmd == null) inferCommand = "infer run";
+    else {
+      inferCommand = MessageFormat.format(inferCommand, buildCmd);
+    }
+
+    if (useDocker) {
+      String userDir = System.getProperty("user.home");
+      String buildToolHome = "";
+      if (JavaProjectType.Maven.toString().equals(this.projectType)) {
+        buildToolHome = MessageFormat.format("-v {0}/.m2:/root/.m2", userDir);
+      } else if (JavaProjectType.Gradle.toString().equals(this.projectType)) {
+        buildToolHome = MessageFormat.format("-v {0}/.gradle:/root/.gradle", userDir);
+      }
+      String dockerCommand =
+          "docker run --rm {0} -v {1}:/project {2} /bin/bash -c \"cd /project && {3}\"";
+      inferCommand =
+          MessageFormat.format(dockerCommand, buildToolHome, rootPath, dockerImage, inferCommand);
+    }
+    return inferCommand.split(" ");
   }
 
   @Override
@@ -169,11 +243,7 @@ public class InferServerAnalysis implements ToolAnalysis {
                 Kind.Diagnostic, pos, msg, traceList, DiagnosticSeverity.Error, null, null);
         res.add(rbug);
       }
-    } catch (JsonIOException e) {
-      e.printStackTrace();
-    } catch (JsonSyntaxException e) {
-      e.printStackTrace();
-    } catch (FileNotFoundException e) {
+    } catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
       e.printStackTrace();
     }
     return res;

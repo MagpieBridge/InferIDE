@@ -35,20 +35,32 @@
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
 				},
-				"InferIDE.auto":{
+				"InferIDE.auto": {
 					"scope": "window",
 					"type": "boolean",
-					"default":true,
+					"default": true,
 					"description": "Specifies if infer should be ran automatically when the user is idle."
 				},
-				"InferIDE.timeout":{
+				"InferIDE.timeout": {
 					"scope": "window",
 					"type": "integer",
 					"default": 5,
 					"description": "Specifies the time to wait for idle when Auto is enabled."
-				}	
+				},
+				"InferIDE.dockerImage": {
+					"scope": "window",
+					"type": "string",
+					"default": "",
+					"description": "Specifies the docker image to be used."
+				},
+				"InferIDE.lspTransport": {
+					"scope": "window",
+					"type": "string",
+					"enum": ["stdio", "socket"],
+					"default": "stdio",
+					"description": "Specifies the mode of transport used to communicate with the INferIDE language server."
+				}
 			}
-			
 		}
 	},
 	"scripts": {
