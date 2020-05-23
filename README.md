@@ -22,6 +22,7 @@ Currently, only analyzing Java Projects is supported.
   - By default, InferIDE will use the docker image [jonasmanuel/inferdocker](https://hub.docker.com/r/jonasmanuel/inferdocker) from dockerhub. It is built from the [dockerfile](inferdocker/Dockerfile) in this repository
   - If you want to use your own image you can supply the image using the command line option -i <dockerImage>
   - if the image is not yet installed on your system, docker will pull it on the first run
+    - otherwise you can install it beforehand using `docker pull jonasmanuel/inferdocker` 
  
 ## Use InferIDE in VS Code
 
