@@ -65,7 +65,6 @@ public class InferIDE {
     try {
       cmd = parser.parse(cliOptions, args);
     } catch (ParseException e) {
-      System.out.println(e.getMessage());
       formatter.printHelp("inferIDE", cliOptions, true);
 
       System.exit(1);
