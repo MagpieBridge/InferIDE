@@ -70,3 +70,6 @@ Default build-in commands are :
         - npm install -g vsce #(if the first time)
         - vsce package #(this will create vscode extension under vscode directory)
  ```
+ 
+## Contact 
+&#x2709; linghui[at]outlook.de
