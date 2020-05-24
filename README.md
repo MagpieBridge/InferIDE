@@ -56,12 +56,12 @@ These are two ways how infer can be triggered by InferIDE:
 - User-controlled: InferIDE displays a HTML page (see screenshot below) in your web browser which allows you configure commands for infer to run and a click button to trigger infer. The InferIDE command used is `java -jar inferIDE-0.0.1.jar`
 Default build-in commands are :
 - Maven Project:
- - `infer run --reactive -- mvn clean compile` (first run)
- - `infer run --reactive -- mvn compile`
+  - `infer run --reactive -- mvn clean compile` (first run)
+  - `infer run --reactive -- mvn compile`
 
 - Gradle Project: 
- - `infer run --reactive -- ./gradlew clean build` (first run)
- - `infer run --reactive -- ./gradlew build`
+  - `infer run --reactive -- ./gradlew clean build` (first run)
+  - `infer run --reactive -- ./gradlew build`
  
  <img src="https://github.com/MagpieBridge/InferIDE/blob/master/doc/htmlpage.png" width="600">
  
@@ -74,5 +74,9 @@ Default build-in commands are :
         - vsce package #(this will create vscode extension under vscode directory)
  ```
  
+## Get Involved
+- Pull requests are welcome!
+- Submit github issues for any feature enhancements, bugs or documentation problems
+
 ## Contact 
 &#x2709; linghui[at]outlook.de
