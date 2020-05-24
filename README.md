@@ -48,7 +48,7 @@ vscode:
                           5007
  -s,--socket              run in socket mode, standard port is 5007
  ```
-For editors like sublime, make sure you open the root path of your testing Java project at first, then any Java source file. This way the editors can notify InferIDE the project root path. 
+For editors like sublime, make sure you open the root path of your testing Java project at first, then any Java source file. This way the editors can notify InferIDE the project root path and execute infer from there. 
 
 ## When is infer running?
 These are two ways how infer can be triggered by InferIDE:
