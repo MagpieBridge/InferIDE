@@ -51,8 +51,9 @@ vscode:
 
 ## When is infer running?
 These are two ways how infer can be triggered by InferIDE:
-- Fully automated (default): The default way is fully based on user interactions in the IDE. Infer will be triggered when the user opens a source file for the first time in a project. Moreover, InferIDE detects if the user is idle in the IDE (not typing for a given amout of time, e.g. 5 minutes) and triggers infer.  The command used is `java -jar inferIDE-0.0.1.jar -a 5`
-- User-controlled: InferIDE displays a HTML page in your web browser which allows you configure commands for infer to run and a click button to trigger infer. The command used is `java -jar inferIDE-0.0.1.jar`
+- Fully automated (default): The default way is fully based on user interactions in the IDE. Infer will be triggered when the user opens a source file for the first time in a project. Moreover, InferIDE detects if the user is idle in the IDE (not typing for a given amout of time, e.g. 5 minutes) and triggers infer.  The InferIDE command used is `java -jar inferIDE-0.0.1.jar -a 5`
+- User-controlled: InferIDE displays a HTML page ([see screenshot here](
+https://github.com/MagpieBridge/InferIDE/blob/master/doc/htmlpage.png)) in your web browser which allows you configure commands for infer to run and a click button to trigger infer. The InferIDE command used is `java -jar inferIDE-0.0.1.jar`
 
 Default build-in commands are :
 - Maven Project:
