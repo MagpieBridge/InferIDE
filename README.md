@@ -53,8 +53,7 @@ For editors like sublime, make sure you open the root path of your testing Java 
 ## When is infer running?
 These are two ways how infer can be triggered by InferIDE:
 - Fully automated (default): The default way is fully based on user interactions in the IDE. Infer will be triggered when the user opens a source file for the first time in a project. Moreover, InferIDE detects if the user is idle in the IDE (not typing for a given amout of time, e.g. 5 minutes) and triggers infer.  The InferIDE command used is `java -jar inferIDE-0.0.1.jar -a 5`
-- User-controlled: InferIDE displays a HTML page ([see screenshot here](
-https://github.com/MagpieBridge/InferIDE/blob/master/doc/htmlpage.png)) in your web browser which allows you configure commands for infer to run and a click button to trigger infer. The InferIDE command used is `java -jar inferIDE-0.0.1.jar`
+- User-controlled: InferIDE displays a HTML page (see screenshot below) in your web browser which allows you configure commands for infer to run and a click button to trigger infer. The InferIDE command used is `java -jar inferIDE-0.0.1.jar`
 Default build-in commands are :
 - Maven Project:
  - `infer run --reactive -- mvn clean compile` (first run)
@@ -63,6 +62,8 @@ Default build-in commands are :
 - Gradle Project: 
  - `infer run --reactive -- ./gradlew clean build` (first run)
  - `infer run --reactive -- ./gradlew build`
+ 
+ <img src="https://github.com/MagpieBridge/InferIDE/blob/master/doc/htmlpage.png" width="600">
  
 ## How to build InferIDE by yourself?
 - Use maven to build, simply `mvn install`
