@@ -33,7 +33,7 @@ Configure `.gitpod.yml` for your project as in [this file](https://github.com/Ma
 image: jonasmanuel/inferdocker
 vscode:
   extensions:
-    - LinghuiLuo.inferide@0.0.1:/JUmg3/nkms7n3IINjjLkg==
+    - LinghuiLuo.inferide@0.0.1:reNHu3/GfefVx26yvbo/sg==
 ```
 ## Use InferIDE in Eclipse, IntelliJ, Android Studio, Sublime Text, Vim, Emacs 
 - Download the [inferIDE jar file](https://github.com/MagpieBridge/InferIDE/releases/download/0.0.1/inferIDE-0.0.1.jar) from the release page.
