@@ -51,6 +51,7 @@ public class InferServerAnalysis implements ToolAnalysis {
   private String userDefinedCommand;
   private boolean useDefaultCommand;
   private String defaultCommand;
+  private MagpieServer server;
 
   private boolean useDocker;
   private String dockerImage;
@@ -103,7 +104,7 @@ public class InferServerAnalysis implements ToolAnalysis {
   public void analyze(
       Collection<? extends Module> files, AnalysisConsumer consumer, boolean rerun) {
     if (consumer instanceof MagpieServer) {
-      MagpieServer server = (MagpieServer) consumer;
+      this.server = (MagpieServer) consumer;
       if (this.rootPath == null) {
         JavaProjectService ps = (JavaProjectService) server.getProjectService("java").get();
         if (ps.getRootPath().isPresent()) {
@@ -127,9 +128,6 @@ public class InferServerAnalysis implements ToolAnalysis {
               try {
                 File report = new File(InferServerAnalysis.this.reportPath);
                 if (report.exists()) report.delete();
-                server.forwardMessageToClient(
-                    new MessageParams(
-                        MessageType.Info, "Running command: " + String.join(" ", getCommand())));
                 Process runInfer = this.runCommand(new File(InferServerAnalysis.this.rootPath));
                 StreamGobbler stdOut =
                     new StreamGobbler(runInfer.getInputStream(), e -> handleError(server, e));
@@ -205,6 +203,8 @@ public class InferServerAnalysis implements ToolAnalysis {
       inferCommand =
           MessageFormat.format(dockerCommand, buildToolHome, rootPath, dockerImage, inferCommand);
     }
+    server.forwardMessageToClient(
+        new MessageParams(MessageType.Info, "Running command: " + inferCommand));
     return inferCommand.split(" ");
   }
 
