@@ -35,6 +35,7 @@ vscode:
   extensions:
     - LinghuiLuo.inferide@0.0.1:reNHu3/GfefVx26yvbo/sg==
 ```
+![gitpod](https://github.com/MagpieBridge/InferIDE/blob/master/doc/gitpod.gif)
 ## Use InferIDE in Eclipse, IntelliJ, Android Studio, Sublime Text, Vim, Emacs 
 - Download the [inferIDE jar file](https://github.com/MagpieBridge/InferIDE/releases/download/0.0.1/inferIDE-0.0.1.jar) from the release page.
 - Use the command `java -jar inferIDE-0.0.1.jar -a 5` or simply `java -jar inferIDE-0.0.1.jar` to configure the language server for Java in your desired IDE. Details are explained in [this tuturial](https://github.com/MagpieBridge/MagpieBridge/wiki/Tutorial-11.-Configure-different-IDEs-to-use-your-MagpieBridge-based-server) for all listed IDE and editors. InferIDE supports the following options:
