@@ -3,6 +3,7 @@ This project integrates the static analyzer [Facebook Infer](https://github.com/
 InferIDE executes infer in the background and displays analysis results directly in IDEs which support the Language Server Protocol.
 Currently, only analyzing Java Projects is supported.  
 ![infer.gif](https://github.com/MagpieBridge/InferIDE/blob/master/doc/infer.gif)
+**Figure 1: Infer warnings in VS Code** 
 # Usage
 ## Install infer
 * MacOS `brew install infer`
@@ -33,9 +34,12 @@ Configure `.gitpod.yml` for your project as in [this file](https://github.com/Ma
 image: jonasmanuel/inferdocker
 vscode:
   extensions:
-    - LinghuiLuo.inferide@0.0.1:/JUmg3/nkms7n3IINjjLkg==
+    - LinghuiLuo.inferide@0.0.1:reNHu3/GfefVx26yvbo/sg==
 ```
-## Use InferIDE in Eclipse, IntelliJ, Android Studio, Sublime Text, Vim, Emacs 
+![gitpod](https://github.com/MagpieBridge/InferIDE/blob/master/doc/gitpod.gif)
+**Figure 2: Infer warnings in Gitpod** 
+
+## Use InferIDE in Eclipse, IntelliJ/Android Studio, Sublime Text, Vim, Emacs 
 - Download the [inferIDE jar file](https://github.com/MagpieBridge/InferIDE/releases/download/0.0.1/inferIDE-0.0.1.jar) from the release page.
 - Use the command `java -jar inferIDE-0.0.1.jar -a 5` or simply `java -jar inferIDE-0.0.1.jar` to configure the language server for Java in your desired IDE. Details are explained in [this tuturial](https://github.com/MagpieBridge/MagpieBridge/wiki/Tutorial-11.-Configure-different-IDEs-to-use-your-MagpieBridge-based-server) for all listed IDE and editors. InferIDE supports the following options:
 ```
@@ -49,6 +53,10 @@ vscode:
  -s,--socket              run in socket mode, standard port is 5007
  ```
 For editors like sublime, make sure you open the root path of your testing Java project at first, then any Java source file. This way the editors can notify InferIDE the project root path and execute infer from there. 
+![eclipse](https://github.com/MagpieBridge/InferIDE/blob/master/doc/eclipse.gif)
+**Figure 3: Infer warnings in Eclipse** 
+![intellij](https://github.com/MagpieBridge/InferIDE/blob/master/doc/intellij.gif)
+**Figure 4: Infer warnings in IntelliJ** 
 
 ## When is infer running?
 These are two ways how infer can be triggered by InferIDE:
