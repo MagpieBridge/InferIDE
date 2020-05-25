@@ -117,7 +117,7 @@ public class InferServerAnalysis implements ToolAnalysis {
           File file = new File(InferServerAnalysis.this.reportPath);
           if (file.exists()) {
             Collection<AnalysisResult> results = convertToolOutput();
-            server.consume(results, source());
+            if (!results.isEmpty()) server.consume(results, source());
           }
         }
       }
