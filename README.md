@@ -26,7 +26,7 @@ Currently, only analyzing Java Projects is supported.
     - otherwise you can install it beforehand using `docker pull jonasmanuel/inferdocker` 
  
 ## Use InferIDE in VS Code
-Simply install the [InferIDE VS code extension](https://github.com/MagpieBridge/InferIDE/releases/download/0.0.1/inferide-0.0.1.vsix) from the release page. 
+Simply install the [inferide](https://marketplace.visualstudio.com/items?itemName=LinghuiLuo.inferide&ssr=false) from the VS Code Marktplace or the latest [InferIDE VS code extension](https://github.com/MagpieBridge/InferIDE/releases/download/0.0.1/inferide-0.0.1.vsix) from the release page. 
 ## Use InferIDE in the online editor --- GitPod
 Configure `.gitpod.yml` for your project as in [this file](https://github.com/MagpieBridge/MagpieBridge/blob/develop/.gitpod.yml
 ), namely 
