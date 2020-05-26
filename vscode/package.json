@@ -1,17 +1,21 @@
 {
 	"name": "inferide",
-	"description": "A language server for facebook Infer with the MagpieBridge framework.",
+	"description": "A Java language server using facebook Infer with the MagpieBridge framework.",
 	"author": "Linghui Luo",
 	"license": "MIT",
 	"version": "0.0.1",
+	"homepage": "https://github.com/MagpieBridge/InferIDE/blob/master/README.md",
+	"bugs": {
+		"url": "https://github.com/MagpieBridge/InferIDE/issues"
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/MagpieBridge/InferIDE"
 	},
 	"publisher": "LinghuiLuo",
-	"categories": [],
+	"categories": ["Programming Languages"],
 	"keywords": [
-		"multi-root ready"
+		"finfer, infer, facebook infer, static analyzer"
 	],
 	"engines": {
 		"vscode": "^1.30.0"
