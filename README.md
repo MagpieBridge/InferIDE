@@ -1,7 +1,7 @@
 # InferIDE
 This project integrates the static analyzer [Facebook Infer](https://github.com/facebook/infer) into IDEs and editors with the [MagpieBridge](https://github.com/MagpieBridge/MagpieBridge) framework.
 InferIDE executes infer in the background and displays analysis results directly in IDEs which support the Language Server Protocol.
-Currently, only analyzing Java Projects is supported.  
+Currently, only analyzing Java Projects is supported. For VS Code user, simply install [inferide](https://marketplace.visualstudio.com/items?itemName=LinghuiLuo.inferide&ssr=false) from the VS Code Marktplace.
 ![infer.gif](https://github.com/MagpieBridge/InferIDE/blob/master/doc/infer.gif)
 **Figure 1: Infer warnings in VS Code** 
 # Usage
@@ -26,7 +26,7 @@ Currently, only analyzing Java Projects is supported.
     - otherwise you can install it beforehand using `docker pull jonasmanuel/inferdocker` 
  
 ## Use InferIDE in VS Code
-Simply install the [inferide](https://marketplace.visualstudio.com/items?itemName=LinghuiLuo.inferide&ssr=false) from the VS Code Marktplace or the latest [InferIDE VS code extension](https://github.com/MagpieBridge/InferIDE/releases/download/0.0.1/inferide-0.0.1.vsix) from the release page. 
+Simply install [inferide](https://marketplace.visualstudio.com/items?itemName=LinghuiLuo.inferide&ssr=false) from the VS Code Marktplace or the latest [InferIDE VS code extension](https://github.com/MagpieBridge/InferIDE/releases/download/0.0.1/inferide-0.0.1.vsix) from the release page. 
 ## Use InferIDE in the online editor --- GitPod
 Configure `.gitpod.yml` for your project as in [this file](https://github.com/MagpieBridge/MagpieBridge/blob/develop/.gitpod.yml
 ), namely 
