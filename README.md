@@ -74,6 +74,7 @@ Default build-in commands are :
  <img src="https://github.com/MagpieBridge/InferIDE/blob/master/doc/htmlpage.png" width="600">
  
 ## How to build InferIDE by yourself?
+- Make sure you have set up your personal access token for GitHub package by following [these instructions](https://github.com/MagpieBridge/MagpieBridge/wiki/Tutorial-3.-How-To-Install-a-GitHub-Maven-Package), since MagpieBridge is deployed as GitHub Package. 
 - Use maven to build, simply `mvn install`
 - For VS Code Extension, after build navigate to the directory vscode, execute the following commands:
 ```
