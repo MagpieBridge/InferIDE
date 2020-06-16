@@ -5,6 +5,9 @@ Currently, only analyzing Java Projects is supported. For VS Code user, simply i
 ![infer.gif](https://github.com/MagpieBridge/InferIDE/blob/master/doc/infer.gif)
 **Figure 1: Infer warnings in VS Code** 
 # Usage
+## Execution environment
+* Make sure java 8 is installed on your machine and it is the default java runtime. This is important, since inferIDE uses MagpieBridge and other libraries which are written java 8. Using higher java version might lead to Exceptions. 
+
 ## Install infer
 * MacOS `brew install infer`
 * Linux 
