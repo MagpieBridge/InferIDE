@@ -4,7 +4,7 @@ InferIDE executes infer in the background and displays analysis results directly
 Currently, only analyzing Java Projects is supported.  
 # Usage
 1. Execution environment
-Make sure java 8 is installed on your machine and it is the default java runtime. This is important, since inferIDE uses MagpieBridge and other libraries which are written java 8. Using higher java version might lead to Exceptions.
+* Make sure java 8 is installed on your machine and it is the default java runtime. This is important, since inferIDE uses MagpieBridge and other libraries which are written java 8. Using higher java version might lead to Exceptions.
 2. Install infer by yourself at first 
 * MacOS `brew install infer`
 * Linux 
