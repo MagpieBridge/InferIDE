@@ -1,6 +1,6 @@
 # InferIDE
 This extension integrates the static analyzer [Facebook Infer](https://github.com/facebook/infer) into Visual Studio Code with the [MagpieBridge](https://github.com/MagpieBridge/MagpieBridge) framework.
-InferIDE executes infer in the background and displays analysis results directly in IDEs which support the Language Server Protocol.
+InferIDE executes infer in the background and displays analysis results directly in Visual Studio Code.
 Currently, only analyzing Java Projects is supported.  
 # Usage
 1. Execution environment
