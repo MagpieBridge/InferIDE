@@ -1,9 +1,11 @@
 # InferIDE
-This extension integrates the static analyzer [Facebook Infer](https://github.com/facebook/infer) into IDEs and editors with the [MagpieBridge](https://github.com/MagpieBridge/MagpieBridge) framework.
+This extension integrates the static analyzer [Facebook Infer](https://github.com/facebook/infer) into Visual Studio Code with the [MagpieBridge](https://github.com/MagpieBridge/MagpieBridge) framework.
 InferIDE executes infer in the background and displays analysis results directly in IDEs which support the Language Server Protocol.
 Currently, only analyzing Java Projects is supported.  
 # Usage
-1. Install infer by yourself at first 
+1. Execution environment
+Make sure java 8 is installed on your machine and it is the default java runtime. This is important, since inferIDE uses MagpieBridge and other libraries which are written java 8. Using higher java version might lead to Exceptions.
+2. Install infer by yourself at first 
 * MacOS `brew install infer`
 * Linux 
   - see [infer documentation](https://fbinfer.com/docs/getting-started/) for the latest version.
