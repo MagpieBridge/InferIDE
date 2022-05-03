@@ -79,7 +79,10 @@ Default build-in commands are :
 ## How to build InferIDE by yourself?
 - Make sure you have set up your personal access token for GitHub package by following [these instructions](https://github.com/MagpieBridge/MagpieBridge/wiki/Tutorial-3.-How-To-Install-a-GitHub-Maven-Package), since MagpieBridge is deployed as GitHub Package. 
 - Use maven to build, simply `mvn install`
-- For VS Code Extension, after build navigate to the directory vscode, execute the following commands:
+- For VS Code Extension, 
+  - install npm
+  - install Node.js v14.* 
+  - After maven build navigate to the directory `vscode`, execute the following commands:
 ```
         - npm install #(if the first time)
         - npm install -g vsce #(if the first time)
